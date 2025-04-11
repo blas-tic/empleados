@@ -1,0 +1,103 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:tns="http://blastic.es/soap/empleado"
+             targetNamespace="http://blastic.es/soap/empleado">
+
+    <!-- Tipos definidos en el XSD -->
+    <types>
+        <xsd:schema targetNamespace="http://blastic.es/soap/empleado">
+            <xsd:import namespace="http://blastic.es/soap/empleado" schemaLocation="wsdl/empleado.xsd"/>
+        </xsd:schema>
+    </types>
+
+    <!-- Mensajes -->
+    <!-- Solicitudes y respuestas para EmpleadoId -->
+    <message name="EmpleadoIdRequest">
+        <part name="id" type="xsd:string"/>
+    </message>
+    <message name="EmpleadoIdResponse">
+        <part name="empleado" element="tns:Empleado"/>
+    </message>
+
+    <!-- Solicitudes y respuestas para EmpleadoNombre -->
+    <message name="EmpleadoNombreRequest">
+        <part name="nombreCompleto" type="xsd:string"/>
+    </message>
+    <message name="EmpleadoNombreResponse">
+        <part name="empleados" element="tns:Empleado"/>
+    </message>
+
+    <!-- Solicitudes y respuestas para CrearEmpleado -->
+    <message name="CrearEmpleadoRequest">
+        <part name="empleado" element="tns:Empleado"/>
+    </message>
+    <message name="CrearEmpleadoResponse">
+        <part name="resultado" type="xsd:boolean"/>
+    </message>
+
+    <!-- Mensaje para SoapFault -->
+    <message name="SoapFaultMessage">
+        <part name="fault" element="tns:SoapFault"/>
+    </message>
+
+    <!-- PortType -->
+    <portType name="EmpleadoPortType">
+        <!-- Operación EmpleadoId -->
+        <operation name="EmpleadoId">
+            <input message="tns:EmpleadoIdRequest"/>
+            <output message="tns:EmpleadoIdResponse"/>
+            <fault message="tns:SoapFaultMessage"/>
+        </operation>
+
+        <!-- Operación EmpleadoNombre -->
+        <operation name="EmpleadoNombre">
+            <input message="tns:EmpleadoNombreRequest"/>
+            <output message="tns:EmpleadoNombreResponse"/>
+            <fault message="tns:SoapFaultMessage"/>
+        </operation>
+
+        <!-- Operación CrearEmpleado -->
+        <operation name="CrearEmpleado">
+            <input message="tns:CrearEmpleadoRequest"/>
+            <output message="tns:CrearEmpleadoResponse"/>
+            <fault message="tns:SoapFaultMessage"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="EmpleadoBinding" type="tns:EmpleadoPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <!-- Binding para EmpleadoId -->
+        <operation name="EmpleadoId">
+            <soap:operation soapAction="/EmpleadoId"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+            <fault><soap:fault use="literal"/></fault>
+        </operation>
+
+        <!-- Binding para EmpleadoNombre -->
+        <operation name="EmpleadoNombre">
+            <soap:operation soapAction="/EmpleadoNombre"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+            <fault><soap:fault use="literal"/></fault>
+        </operation>
+
+        <!-- Binding para CrearEmpleado -->
+        <operation name="CrearEmpleado">
+            <soap:operation soapAction="/CrearEmpleado"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+            <fault><soap:fault use="literal"/></fault>
+        </operation>
+    </binding>
+
+    <!-- Servicio -->
+    <service name="EmpleadoService">
+        <port name="EmpleadoPort" binding="tns:EmpleadoBinding">
+            <soap:address location="http://blastic.es/soap/empleado/ws"/>
+        </port>
+    </service>
+</definitions>
